@@ -1,0 +1,15 @@
+/* PURPOSE:
+Query a specific app_id and check related information.
+*/
+
+select daytime, t.app_id,  APP.APP_NAME as app_name, host
+from
+(
+select from_unixtime(cast(begin_time/3600 as int)*3600,'yyyy-MM-dd') as daytime,
+app_id, host
+from traffic_Other
+where imsi is not null and imsi <>'' and app_id=11111 and host <> ''
+) t,
+dim.application APP
+where t.app_id = APP.app_id
+limit 50;
